@@ -1,0 +1,157 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String      @id @default(uuid())
+  email        String      @unique
+  passwordHash String
+  name         String?
+  roleId       String
+  role         Role        @relation(fields: [roleId], references: [id])
+  estimates    Estimate[]
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+}
+
+model Role {
+  id          String       @id @default(uuid())
+  name        String       @unique
+  description String?
+  users       User[]
+  permissions Permission[]
+}
+
+model Permission {
+  id       String @id @default(uuid())
+  action   String
+  resource String
+  roleId   String
+  role     Role   @relation(fields: [roleId], references: [id])
+}
+
+model PricingRule {
+  id          String   @id @default(uuid())
+  category    String   // "platform", "feature", "integration", "design", "security"
+  name        String
+  price       Float
+  description String?
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Lead {
+  id        String   @id @default(uuid())
+  name      String
+  email     String
+  phone     String?
+  company   String?
+  message   String
+  status    String   @default("NEW") // "NEW", "CONTACTED", "QUALIFIED", "CLOSED"
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Estimate {
+  id         String   @id @default(uuid())
+  title      String
+  userId     String?
+  user       User?    @relation(fields: [userId], references: [id])
+  config     Json
+  totalPrice Float
+  status     String   @default("DRAFT") // "DRAFT", "PENDING", "APPROVED", "REJECTED"
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model ProjectTracking {
+  id                  String   @id @default(uuid())
+  trackingId          String   @unique // e.g. KT-782910
+  leadId              String?
+  clientName          String
+  clientEmail         String
+  clientPhone         String?
+  company             String?
+  projectName         String
+  projectDescription  String?
+  currentStage        Int      @default(1)
+  currentStageName    String   @default("App Information Submitted")
+  progressPercent     Int      @default(0)
+  estimatedCompletion String
+  leadEngineer        String   @default("Pending Developer Assignment")
+  githubRepo          String?
+  liveDemoUrl         String?
+  milestones          Json     // List of milestone objects
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+}
+
+model Invoice {
+  id            String   @id @default(uuid())
+  invoiceNumber String   @unique // e.g. INV-2026-94812
+  trackingId    String
+  clientName    String
+  clientEmail   String
+  clientPhone   String?
+  company       String?
+  projectName   String
+  items         Json     // Array of items { description, amount }
+  subtotal      Float
+  gstRate       Float    @default(0.18)
+  gstAmount     Float
+  totalAmount   Float
+  paymentMethod String   @default("UPI / QR")
+  transactionId String   @unique
+  status        String   @default("PAID") // "PAID" | "PENDING"
+  paidAt        DateTime @default(now())
+  createdAt     DateTime @default(now())
+  notes         String?
+}
+
+model KineticApp {
+  id                  String   @id @default(uuid())
+  name                String
+  tagline             String
+  description         String
+  category            String
+  icon                String
+  platform            String[] // array of platform strings
+  version             String
+  fileUrl             String?
+  fileName            String?
+  fileSize            String?
+  externalDownloadUrl String?
+  liveDemoUrl         String?
+  githubUrl           String?
+  rating              Float    @default(4.8)
+  downloadsCount      Int      @default(0)
+  featured            Boolean  @default(false)
+  tags                String[]
+  techStack           String[]
+  screenshots         String[]
+  releaseDate         String
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+}
+
+model CompanySettings {
+  id             String   @id @default("default")
+  name           String   @default("Kinetic Technology")
+  logoUrl        String?
+  tagline        String?
+  description    String?
+  email          String?
+  phone          String?
+  address        Json?
+  trustBadge     String?
+  currency       String   @default("INR")
+  currencySymbol String   @default("₹")
+  socialLinks    Json?
+  updatedAt      DateTime @updatedAt
+}

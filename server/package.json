@@ -5,11 +5,12 @@
   "main": "dist/index.js",
   "scripts": {
     "dev": "ts-node-dev --transpile-only src/index.ts",
-    "build": "tsc",
+    "postinstall": "prisma generate --schema=./prisma/schema.prisma",
+    "build": "prisma generate --schema=./prisma/schema.prisma && tsc",
     "start": "node dist/index.js",
     "lint": "eslint src --ext .ts,.tsx",
-    "prisma:generate": "prisma generate --schema=../prisma/schema.prisma",
-    "prisma:migrate": "prisma migrate dev --name init --schema=../prisma/schema.prisma"
+    "prisma:generate": "prisma generate --schema=./prisma/schema.prisma",
+    "prisma:migrate": "prisma migrate dev --name init --schema=./prisma/schema.prisma"
   },
   "dependencies": {
     "@prisma/client": "^5.14.0",
@@ -24,6 +25,7 @@
     "helmet": "^7.1.0",
     "jsonwebtoken": "^9.0.2",
     "multer": "^2.4.0",
+    "prisma": "^5.14.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {

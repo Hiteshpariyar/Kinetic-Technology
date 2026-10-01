@@ -1,5 +1,14 @@
 // server/src/services/pricingService.ts
-import { PrismaClient, PricingRule } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
+
+export interface PricingRule {
+  id?: string;
+  category: string;
+  name: string;
+  price: number | string | any;
+  description?: string | null;
+  active?: boolean;
+}
 
 const prisma = new PrismaClient();
 
