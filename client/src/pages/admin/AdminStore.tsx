@@ -23,6 +23,7 @@ import {
   Check,
 } from "lucide-react";
 import { KineticApp } from "../KineticStore";
+import { API_BASE_URL } from "../../utils/api";
 
 export const AdminStore: React.FC = () => {
   const [apps, setApps] = useState<KineticApp[]>([]);
@@ -71,7 +72,7 @@ export const AdminStore: React.FC = () => {
   const fetchApps = async () => {
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:4000/api/store");
+      const res = await fetch(`${API_BASE_URL}/store`);
       const data = await res.json();
       if (data.apps) {
         setApps(data.apps);
@@ -190,8 +191,8 @@ export const AdminStore: React.FC = () => {
       }
 
       const url = editingApp
-        ? `http://localhost:4000/api/store/${editingApp.id}`
-        : "http://localhost:4000/api/store";
+        ? `${API_BASE_URL}/store/${editingApp.id}`
+        : `${API_BASE_URL}/store`;
 
       const method = editingApp ? "PUT" : "POST";
 
@@ -221,7 +222,7 @@ export const AdminStore: React.FC = () => {
     }
 
     try {
-      const res = await fetch(`http://localhost:4000/api/store/${app.id}`, {
+      const res = await fetch(`${API_BASE_URL}/store/${app.id}`, {
         method: "DELETE",
       });
       if (res.ok) {

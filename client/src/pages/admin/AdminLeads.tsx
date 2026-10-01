@@ -17,6 +17,7 @@ import {
   Layers,
   Sparkles,
 } from "lucide-react";
+import { API_BASE_URL } from "../../utils/api";
 
 export const AdminLeads: React.FC = () => {
   const [leads, setLeads] = useState<any[]>([]);
@@ -27,7 +28,7 @@ export const AdminLeads: React.FC = () => {
 
   const fetchLeads = () => {
     setLoading(true);
-    fetch("http://localhost:4000/api/leads")
+    fetch(`${API_BASE_URL}/leads`)
       .then((res) => res.json())
       .then((data) => {
         if (data.leads) setLeads(data.leads);
@@ -42,7 +43,7 @@ export const AdminLeads: React.FC = () => {
 
   const handleStatusChange = async (id: string, newStatus: string) => {
     try {
-      await fetch(`http://localhost:4000/api/leads/${id}`, {
+      await fetch(`${API_BASE_URL}/leads/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status: newStatus }),
@@ -64,7 +65,7 @@ export const AdminLeads: React.FC = () => {
   const handleDelete = async (id: string) => {
     if (!window.confirm("Are you sure you want to delete this lead?")) return;
     try {
-      await fetch(`http://localhost:4000/api/leads/${id}`, {
+      await fetch(`${API_BASE_URL}/leads/${id}`, {
         method: "DELETE",
       });
       setLeads((prev) => prev.filter((l) => l.id !== id));

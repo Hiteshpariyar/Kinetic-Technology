@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { companyConfig } from "../config/companyConfig";
+import { API_BASE_URL } from "../utils/api";
 import {
   Mail,
   Phone,
@@ -38,7 +39,7 @@ export const Contact: React.FC = () => {
     setSubmitting(true);
 
     try {
-      const res = await fetch("http://localhost:4000/api/leads", {
+      const res = await fetch(`${API_BASE_URL}/leads`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, phone, company, message }),

@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { companyConfig as initialStaticConfig } from "../config/companyConfig";
+import { API_BASE_URL } from "../utils/api";
 
 export interface CompanyConfigState {
   name: string;
@@ -92,7 +93,7 @@ export const CompanyConfigProvider: React.FC<{ children: React.ReactNode }> = ({
   const refreshConfig = async () => {
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:4000/api/settings");
+      const res = await fetch(`${API_BASE_URL}/settings`);
       if (res.ok) {
         const data = await res.json();
         if (data.settings) {
@@ -120,12 +121,12 @@ export const CompanyConfigProvider: React.FC<{ children: React.ReactNode }> = ({
     try {
       let res: Response;
       if (payload instanceof FormData) {
-        res = await fetch("http://localhost:4000/api/settings", {
+        res = await fetch(`${API_BASE_URL}/settings`, {
           method: "PUT",
           body: payload,
         });
       } else {
-        res = await fetch("http://localhost:4000/api/settings", {
+        res = await fetch(`${API_BASE_URL}/settings`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload),

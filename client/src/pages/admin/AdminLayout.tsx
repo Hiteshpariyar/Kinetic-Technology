@@ -3,6 +3,7 @@ import { Link, useLocation, Outlet, useNavigate } from "react-router-dom";
 import { companyConfig } from "../../config/companyConfig";
 import { useTheme } from "../../context/ThemeContext";
 import { useCompanyConfig } from "../../context/CompanyConfigContext";
+import { API_BASE_URL } from "../../utils/api";
 import {
   LayoutDashboard,
   Users,
@@ -74,7 +75,7 @@ export const AdminLayout: React.FC = () => {
 
     // Also attempt server-side verification
     try {
-      const res = await fetch("http://localhost:4000/api/auth/login", {
+      const res = await fetch(`${API_BASE_URL}/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: adminId.trim(), password: adminPassword }),

@@ -21,6 +21,7 @@ import {
   ShieldCheck,
   Check,
 } from "lucide-react";
+import { API_BASE_URL } from "../../utils/api";
 
 interface TrackingMilestone {
   step: number;
@@ -82,7 +83,7 @@ export const AdminTracking: React.FC = () => {
   const fetchRecords = async () => {
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:4000/api/tracking");
+      const res = await fetch(`${API_BASE_URL}/tracking`);
       const data = await res.json();
       if (data.trackingRecords) {
         setRecords(data.trackingRecords);
@@ -122,7 +123,7 @@ export const AdminTracking: React.FC = () => {
     setSaveStatus("saving");
     try {
       const res = await fetch(
-        `http://localhost:4000/api/tracking/${selectedRecord.trackingId}`,
+        `${API_BASE_URL}/tracking/${selectedRecord.trackingId}`,
         {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
@@ -160,7 +161,7 @@ export const AdminTracking: React.FC = () => {
     if (!newProjectName || !newClientName || !newClientEmail) return;
 
     try {
-      const res = await fetch("http://localhost:4000/api/leads", {
+      const res = await fetch(`${API_BASE_URL}/leads`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

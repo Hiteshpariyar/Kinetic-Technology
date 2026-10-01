@@ -20,6 +20,7 @@ import {
   Package,
 } from "lucide-react";
 import { InvoiceModal, InvoiceData } from "../../components/InvoiceModal";
+import { API_BASE_URL } from "../../utils/api";
 
 export const AdminOverview: React.FC = () => {
   const [leads, setLeads] = useState<any[]>([]);
@@ -33,10 +34,10 @@ export const AdminOverview: React.FC = () => {
     setLoading(true);
     try {
       const [leadsRes, invRes, trackRes, storeRes] = await Promise.all([
-        fetch("http://localhost:4000/api/leads").catch(() => null),
-        fetch("http://localhost:4000/api/invoices").catch(() => null),
-        fetch("http://localhost:4000/api/tracking").catch(() => null),
-        fetch("http://localhost:4000/api/store").catch(() => null),
+        fetch(`${API_BASE_URL}/leads`).catch(() => null),
+        fetch(`${API_BASE_URL}/invoices`).catch(() => null),
+        fetch(`${API_BASE_URL}/tracking`).catch(() => null),
+        fetch(`${API_BASE_URL}/store`).catch(() => null),
       ]);
 
       if (leadsRes && leadsRes.ok) {

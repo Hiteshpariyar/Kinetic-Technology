@@ -12,6 +12,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import { InvoiceData } from "./InvoiceModal";
+import { API_BASE_URL } from "../utils/api";
 
 interface PaymentModalProps {
   isOpen: boolean;
@@ -63,7 +64,7 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
           ? "Razorpay Gateway (Cards / NetBanking)"
           : "NEFT / RTGS Corporate Transfer";
 
-      const res = await fetch("http://localhost:4000/api/invoices/pay", {
+      const res = await fetch(`${API_BASE_URL}/invoices/pay`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

@@ -20,6 +20,7 @@ import {
   TrendingUp,
 } from "lucide-react";
 import { InvoiceModal, InvoiceData } from "../../components/InvoiceModal";
+import { API_BASE_URL } from "../../utils/api";
 
 export const AdminInvoices: React.FC = () => {
   const [invoices, setInvoices] = useState<InvoiceData[]>([]);
@@ -31,7 +32,7 @@ export const AdminInvoices: React.FC = () => {
   const fetchInvoices = async () => {
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:4000/api/invoices");
+      const res = await fetch(`${API_BASE_URL}/invoices`);
       const data = await res.json();
       if (data.invoices) {
         setInvoices(data.invoices);

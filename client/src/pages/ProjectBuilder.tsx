@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { API_BASE_URL } from "../utils/api";
 import {
   Globe,
   Smartphone,
@@ -228,7 +229,7 @@ ${message.trim()}
 • Estimated Delivery Timeline: ~${estimatedWeeks > 0 ? `${estimatedWeeks} Weeks` : "Flexible"}`,
       };
 
-      const res = await fetch("http://localhost:4000/api/leads", {
+      const res = await fetch(`${API_BASE_URL}/leads`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),

@@ -22,6 +22,7 @@ import {
   Download,
 } from "lucide-react";
 import { InvoiceModal, InvoiceData } from "../components/InvoiceModal";
+import { API_BASE_URL } from "../utils/api";
 
 interface TrackingMilestone {
   step: number;
@@ -76,7 +77,7 @@ export const TrackProject: React.FC = () => {
     setErrorMsg("");
 
     try {
-      const res = await fetch(`http://localhost:4000/api/tracking/${clean}`);
+      const res = await fetch(`${API_BASE_URL}/tracking/${clean}`);
       const data = await res.json();
 
       if (res.ok && data.tracking) {
@@ -124,7 +125,7 @@ export const TrackProject: React.FC = () => {
     setInvoiceLoading(true);
     try {
       const res = await fetch(
-        `http://localhost:4000/api/invoices?trackingId=${activeTracking.trackingId}`
+        `${API_BASE_URL}/invoices?trackingId=${activeTracking.trackingId}`
       );
       const data = await res.json();
       if (data.invoices && data.invoices.length > 0) {

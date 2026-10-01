@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { API_BASE_URL } from "../utils/api";
 import {
   Search,
   Download,
@@ -81,7 +82,7 @@ export const KineticStore: React.FC = () => {
   const fetchApps = async () => {
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:4000/api/store");
+      const res = await fetch(`${API_BASE_URL}/store`);
       const data = await res.json();
       if (data.apps) {
         setApps(data.apps);
@@ -102,7 +103,7 @@ export const KineticStore: React.FC = () => {
     setDownloadingId(app.id);
 
     try {
-      const res = await fetch(`http://localhost:4000/api/store/${app.id}/download`, {
+      const res = await fetch(`${API_BASE_URL}/store/${app.id}/download`, {
         method: "POST",
       });
       const data = await res.json();

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { companyConfig } from "../config/companyConfig";
+import { API_BASE_URL } from "../utils/api";
 import {
   Code2,
   FolderGit2,
@@ -104,14 +105,14 @@ export const ClientDashboard: React.FC = () => {
     setLoadingData(true);
     try {
       // 1. Fetch tracking records
-      const trackRes = await fetch("http://localhost:4000/api/tracking");
+      const trackRes = await fetch(`${API_BASE_URL}/tracking`);
       const trackData = await trackRes.json();
       if (trackData.trackingRecords && trackData.trackingRecords.length > 0) {
         setTracking(trackData.trackingRecords[0]);
       }
 
       // 2. Fetch invoices
-      const invRes = await fetch("http://localhost:4000/api/invoices");
+      const invRes = await fetch(`${API_BASE_URL}/invoices`);
       const invData = await invRes.json();
       if (invData.invoices) {
         setInvoices(invData.invoices);
