@@ -4,6 +4,7 @@ import { ThemeProvider } from "./context/ThemeContext";
 import { CompanyConfigProvider } from "./context/CompanyConfigContext";
 import { Navbar } from "./components/Navbar";
 import { Footer } from "./components/Footer";
+import { Analytics } from "@vercel/analytics/react";
 
 // Public Pages
 import { Home } from "./pages/Home";
@@ -96,6 +97,7 @@ const App: React.FC = () => {
               }
             />
           </Routes>
+          <Analytics />
         </Router>
       </CompanyConfigProvider>
     </ThemeProvider>
