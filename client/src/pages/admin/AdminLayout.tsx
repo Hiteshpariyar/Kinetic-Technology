@@ -117,20 +117,39 @@ export const AdminLayout: React.FC = () => {
   // If not authenticated, render restricted Admin Login Screen
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-[#070B17] text-[#F8FAFC] flex flex-col justify-between items-center px-4 py-8 sm:py-12 relative overflow-hidden font-sans antialiased">
-        {/* Subtle background radial illumination */}
+      <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex flex-col justify-between items-center px-4 py-6 sm:py-10 relative overflow-hidden font-sans antialiased transition-colors duration-200">
+        {/* Subtle background ambient radial */}
         <div
           className="pointer-events-none absolute inset-0 overflow-hidden"
           aria-hidden="true"
         >
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[640px] h-[360px] bg-[#2563EB]/[0.035] blur-[120px] rounded-full" />
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[640px] h-[360px] bg-blue-500/[0.04] dark:bg-blue-600/[0.035] blur-[120px] rounded-full" />
         </div>
 
-        {/* Top spacer for vertical centering balance */}
-        <div className="w-full" />
+        {/* Top Header Row with Theme Toggle & Website Back Link */}
+        <header className="w-full max-w-5xl flex items-center justify-between z-10 px-2 sm:px-4">
+          <Link
+            to="/"
+            className="text-xs font-medium text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200 transition-colors flex items-center gap-1.5"
+          >
+            ← Return to website
+          </Link>
+          <button
+            type="button"
+            onClick={toggleTheme}
+            aria-label="Toggle color theme"
+            className="p-2 rounded-xl text-slate-600 dark:text-slate-300 hover:bg-slate-200/60 dark:hover:bg-slate-800 transition-colors border border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm shadow-sm"
+          >
+            {theme === "dark" ? (
+              <Sun className="w-4 h-4 text-amber-400" />
+            ) : (
+              <Moon className="w-4 h-4 text-slate-600" />
+            )}
+          </button>
+        </header>
 
         {/* Login Area Container */}
-        <main className="w-full max-w-[380px] z-10 my-auto transition-opacity duration-300 motion-reduce:transition-none">
+        <main className="w-full max-w-[390px] z-10 my-auto py-4 transition-opacity duration-300 motion-reduce:transition-none">
           {/* Brand & Logo Header */}
           <div className="flex flex-col items-center text-center mb-6">
             {/* Logo */}
@@ -139,13 +158,13 @@ export const AdminLayout: React.FC = () => {
                 <img
                   src={config.logoUrl}
                   alt={config.name || "Kinetic Technology"}
-                  className="w-10 h-10 object-contain rounded-lg"
+                  className="w-11 h-11 object-contain rounded-xl shadow-sm border border-slate-200 dark:border-slate-800"
                   onError={(e) => {
                     (e.target as HTMLImageElement).style.display = "none";
                   }}
                 />
               ) : (
-                <div className="w-10 h-10 rounded-lg bg-[#2563EB] flex items-center justify-center text-white font-bold text-lg tracking-wider select-none shadow-sm">
+                <div className="w-11 h-11 rounded-xl bg-blue-600 flex items-center justify-center text-white font-bold text-lg tracking-wider select-none shadow-sm shadow-blue-500/20">
                   K
                 </div>
               )}
@@ -153,31 +172,31 @@ export const AdminLayout: React.FC = () => {
 
             {/* Brand Eyebrow */}
             <div className="space-y-0.5">
-              <p className="text-[11px] font-semibold tracking-[0.2em] text-[#94A3B8] uppercase">
+              <p className="text-[11px] font-semibold tracking-[0.2em] text-slate-500 dark:text-slate-400 uppercase">
                 Kinetic Technology
               </p>
-              <p className="text-[10px] font-medium tracking-[0.14em] text-slate-500 uppercase">
+              <p className="text-[10px] font-medium tracking-[0.14em] text-slate-400 dark:text-slate-500 uppercase">
                 Admin Console
               </p>
             </div>
 
             {/* Main Heading & Description */}
-            <h1 className="text-2xl font-semibold text-[#F8FAFC] tracking-tight mt-3">
+            <h1 className="text-2xl font-bold text-slate-900 dark:text-white tracking-tight mt-2.5">
               Welcome back
             </h1>
-            <p className="text-sm text-[#94A3B8] mt-1.5 leading-relaxed">
+            <p className="text-sm text-slate-600 dark:text-slate-400 mt-1.5 leading-relaxed">
               Sign in to access your administration workspace.
             </p>
           </div>
 
-          {/* Login Card */}
-          <div className="w-full bg-[#0B1120] border border-[#243047] rounded-xl p-6 sm:p-7 shadow-xl shadow-black/40">
+          {/* Login Card (Crisp White in light mode) */}
+          <div className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 sm:p-7 shadow-sm">
             {authError && (
               <div
                 role="alert"
-                className="mb-4 px-3.5 py-2.5 rounded-lg bg-red-950/40 border border-red-800/60 text-red-300 text-xs flex items-start gap-2.5"
+                className="mb-4 px-3.5 py-2.5 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800/60 text-rose-700 dark:text-rose-300 text-xs flex items-start gap-2.5"
               >
-                <AlertTriangle className="w-4 h-4 flex-shrink-0 text-red-400 mt-0.5" />
+                <AlertTriangle className="w-4 h-4 flex-shrink-0 text-rose-500 mt-0.5" />
                 <span className="leading-relaxed">{authError}</span>
               </div>
             )}
@@ -187,7 +206,7 @@ export const AdminLayout: React.FC = () => {
               <div>
                 <label
                   htmlFor="adminId"
-                  className="block text-xs font-medium text-[#F8FAFC] mb-1.5"
+                  className="block text-xs font-semibold text-slate-700 dark:text-slate-200 mb-1.5"
                 >
                   Admin ID
                 </label>
@@ -200,7 +219,7 @@ export const AdminLayout: React.FC = () => {
                   value={adminId}
                   onChange={(e) => setAdminId(e.target.value)}
                   placeholder="Enter your admin ID"
-                  className="w-full h-10 px-3.5 rounded-lg border border-[#243047] bg-[#111827] text-[#F8FAFC] text-sm placeholder:text-slate-500 focus:outline-none focus:border-[#2563EB] focus:ring-1 focus:ring-[#2563EB] transition-colors duration-150"
+                  className="w-full h-10 px-3.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-950 text-slate-900 dark:text-white text-sm placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 transition-colors duration-150 shadow-sm"
                 />
               </div>
 
@@ -209,14 +228,14 @@ export const AdminLayout: React.FC = () => {
                 <div className="flex items-center justify-between mb-1.5">
                   <label
                     htmlFor="adminPassword"
-                    className="block text-xs font-medium text-[#F8FAFC]"
+                    className="block text-xs font-semibold text-slate-700 dark:text-slate-200"
                   >
                     Password
                   </label>
                   <button
                     type="button"
                     onClick={() => setForgotNotice(!forgotNotice)}
-                    className="text-xs text-[#94A3B8] hover:text-[#F8FAFC] transition-colors duration-150 focus:outline-none"
+                    className="text-xs text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-150 focus:outline-none font-medium"
                   >
                     Forgot password?
                   </button>
@@ -231,13 +250,13 @@ export const AdminLayout: React.FC = () => {
                     value={adminPassword}
                     onChange={(e) => setAdminPassword(e.target.value)}
                     placeholder="Enter your password"
-                    className="w-full h-10 pl-3.5 pr-10 rounded-lg border border-[#243047] bg-[#111827] text-[#F8FAFC] text-sm placeholder:text-slate-500 focus:outline-none focus:border-[#2563EB] focus:ring-1 focus:ring-[#2563EB] transition-colors duration-150"
+                    className="w-full h-10 pl-3.5 pr-10 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-950 text-slate-900 dark:text-white text-sm placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 transition-colors duration-150 shadow-sm"
                   />
                   <button
                     type="button"
                     aria-label={showPassword ? "Hide password" : "Show password"}
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200 transition-colors duration-150 focus:outline-none p-0.5"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors duration-150 focus:outline-none p-0.5"
                   >
                     {showPassword ? (
                       <EyeOff className="w-4 h-4" />
@@ -250,11 +269,11 @@ export const AdminLayout: React.FC = () => {
 
               {/* Discreet Forgot Password Notice */}
               {forgotNotice && (
-                <div className="p-3 rounded-lg bg-[#111827] border border-[#243047] text-xs text-[#94A3B8] leading-relaxed">
+                <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
                   Administrative credentials must be reset through root administration. Contact{" "}
                   <a
                     href={`mailto:${config.email || "support@kinetictech.com"}?subject=Admin%20Password%20Reset%20Request`}
-                    className="text-[#2563EB] hover:underline"
+                    className="text-blue-600 dark:text-blue-400 hover:underline font-medium"
                   >
                     {config.email || "support@kinetictech.com"}
                   </a>
@@ -266,7 +285,7 @@ export const AdminLayout: React.FC = () => {
               <button
                 type="submit"
                 disabled={isLoggingIn}
-                className="w-full h-10 mt-1 rounded-lg bg-[#2563EB] hover:bg-[#1D4ED8] active:bg-[#1E40AF] text-white text-sm font-medium transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-[#2563EB] focus:ring-offset-2 focus:ring-offset-[#070B17] disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-sm"
+                className="w-full h-10 mt-1 rounded-xl bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white text-sm font-semibold transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-slate-900 disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-sm shadow-blue-600/20"
               >
                 {isLoggingIn ? (
                   <>
@@ -280,22 +299,16 @@ export const AdminLayout: React.FC = () => {
             </form>
           </div>
 
-          {/* Under-Card Context: Protected Administrative Access & Return Link */}
-          <div className="mt-5 flex flex-col items-center gap-2.5">
-            <p className="text-xs text-[#94A3B8]/70 text-center tracking-wide">
+          {/* Under-Card Context: Protected Administrative Access */}
+          <div className="mt-5 text-center">
+            <p className="text-xs text-slate-500 dark:text-slate-400 tracking-wide">
               Protected administrative access
             </p>
-            <Link
-              to="/"
-              className="text-xs text-slate-500 hover:text-[#94A3B8] transition-colors duration-150"
-            >
-              ← Return to website
-            </Link>
           </div>
         </main>
 
         {/* Minimal Footer */}
-        <footer className="w-full text-center py-4 text-xs text-slate-500 z-10">
+        <footer className="w-full text-center py-4 text-xs text-slate-400 dark:text-slate-500 z-10">
           © 2026 Kinetic Technology
         </footer>
       </div>
