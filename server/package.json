@@ -1,5 +1,5 @@
 {
-  "name": "techforge-server",
+  "name": "kinetictechnology-server",
   "version": "0.1.0",
   "private": true,
   "main": "dist/index.js",
@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@prisma/client": "^5.14.0",
+    "@supabase/supabase-js": "^2.117.2",
     "@types/multer": "^2.3.0",
     "bcrypt": "^5.1.1",
     "cookie-parser": "^1.4.6",
