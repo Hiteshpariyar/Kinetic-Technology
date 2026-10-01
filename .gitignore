@@ -62,6 +62,14 @@ ehthumbs.db
 coverage/
 .nyc_output/
 
+# User Uploads & Large Release Binaries
+uploads/
+server/uploads/
+*.apk
+*.ipa
+*.exe
+*.dmg
+
 # Temporary Files & Caches
 .cache/
 .temp/

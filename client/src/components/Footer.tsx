@@ -140,6 +140,14 @@ export const Footer: React.FC = () => {
                 </Link>
               </li>
               <li>
+                <Link to="/store" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-1.5 font-semibold text-blue-600 dark:text-blue-400">
+                  <span>Kinetic Store (Apps)</span>
+                  <span className="text-[9px] bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300 px-1.5 py-0.2 rounded font-bold uppercase">
+                    New
+                  </span>
+                </Link>
+              </li>
+              <li>
                 <Link to="/admin" className="text-blue-600 dark:text-blue-400 font-semibold hover:underline flex items-center gap-1">
                   <span>Admin Console</span>
                   <ArrowUpRight className="w-3.5 h-3.5" />

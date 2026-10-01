@@ -30,6 +30,7 @@ import {
   AlertTriangle,
   ArrowRight,
   Receipt,
+  Package,
 } from "lucide-react";
 
 export const AdminLayout: React.FC = () => {
@@ -98,6 +99,7 @@ export const AdminLayout: React.FC = () => {
     { name: "Overview & Analytics", path: "/admin", icon: LayoutDashboard },
     { name: "Project Tracking", path: "/admin/tracking", icon: Activity },
     { name: "Invoices & Payments", path: "/admin/invoices", icon: Receipt },
+    { name: "Kinetic Store", path: "/admin/store", icon: Package },
     { name: "Leads & Estimates", path: "/admin/leads", icon: Users },
     { name: "Pricing Engine", path: "/admin/pricing", icon: IndianRupee },
     { name: "Services Catalog", path: "/admin/services", icon: Layers },

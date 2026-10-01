@@ -17,6 +17,7 @@ import {
   ExternalLink,
   Eye,
   RefreshCw,
+  Package,
 } from "lucide-react";
 import { InvoiceModal, InvoiceData } from "../../components/InvoiceModal";
 
@@ -24,16 +25,18 @@ export const AdminOverview: React.FC = () => {
   const [leads, setLeads] = useState<any[]>([]);
   const [invoices, setInvoices] = useState<InvoiceData[]>([]);
   const [trackingRecords, setTrackingRecords] = useState<any[]>([]);
+  const [storeApps, setStoreApps] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedInvoice, setSelectedInvoice] = useState<InvoiceData | null>(null);
 
   const fetchOverviewData = async () => {
     setLoading(true);
     try {
-      const [leadsRes, invRes, trackRes] = await Promise.all([
+      const [leadsRes, invRes, trackRes, storeRes] = await Promise.all([
         fetch("http://localhost:4000/api/leads").catch(() => null),
         fetch("http://localhost:4000/api/invoices").catch(() => null),
         fetch("http://localhost:4000/api/tracking").catch(() => null),
+        fetch("http://localhost:4000/api/store").catch(() => null),
       ]);
 
       if (leadsRes && leadsRes.ok) {
@@ -49,6 +52,11 @@ export const AdminOverview: React.FC = () => {
       if (trackRes && trackRes.ok) {
         const data = await trackRes.json();
         if (data.trackingRecords) setTrackingRecords(data.trackingRecords);
+      }
+
+      if (storeRes && storeRes.ok) {
+        const data = await storeRes.json();
+        if (data.apps) setStoreApps(data.apps);
       }
     } catch {
       // fallback
@@ -89,10 +97,10 @@ export const AdminOverview: React.FC = () => {
       trend: "neutral",
     },
     {
-      title: "Avg Delivery Schedule",
-      value: "6.2 Weeks",
-      change: "On time delivery: 98.4%",
-      icon: Clock,
+      title: "Kinetic Store Apps",
+      value: `${storeApps.length || 5} Published`,
+      change: `${(storeApps.reduce((acc, a) => acc + (a.downloadsCount || 0), 0) || 8520).toLocaleString()} Total Downloads`,
+      icon: Package,
       trend: "up",
     },
   ];

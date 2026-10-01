@@ -10,6 +10,7 @@ import {
   Code2,
   ArrowRight,
   Sparkles,
+  Package,
 } from "lucide-react";
 
 export const Navbar: React.FC = () => {
@@ -35,10 +36,10 @@ export const Navbar: React.FC = () => {
     { name: "Services", path: "/services" },
     { name: "Industries", path: "/industries" },
     { name: "Technologies", path: "/technologies" },
+    { name: "Kinetic Store", path: "/store", isStore: true },
     { name: "How It Works", path: "/how-it-works" },
     { name: "Pricing", path: "/pricing" },
     { name: "Track Project", path: "/track" },
-    { name: "About", path: "/about" },
     { name: "Contact", path: "/contact" },
   ];
 
@@ -85,7 +86,17 @@ export const Navbar: React.FC = () => {
                         : "text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100/80 dark:hover:bg-slate-800/70"
                     }`}
                   >
-                    {link.name}
+                    {link.isStore ? (
+                      <span className="inline-flex items-center gap-1.5">
+                        <Package className="w-3.5 h-3.5 text-blue-500" />
+                        <span>{link.name}</span>
+                        <span className="text-[9px] bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold px-1.5 py-0.2 rounded-full uppercase tracking-wider">
+                          New
+                        </span>
+                      </span>
+                    ) : (
+                      link.name
+                    )}
                   </Link>
                 );
               })}
@@ -185,13 +196,21 @@ export const Navbar: React.FC = () => {
                     <Link
                       key={link.path}
                       to={link.path}
-                      className={`px-3 py-2.5 rounded-xl text-base font-medium transition-colors ${
+                      className={`px-3 py-2.5 rounded-xl text-base font-medium transition-colors flex items-center justify-between ${
                         isActive
-                          ? "bg-blue-50 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400"
+                          ? "bg-blue-50 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400 font-semibold"
                           : "text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
                       }`}
                     >
-                      {link.name}
+                      <span className="flex items-center gap-2">
+                        {link.isStore && <Package className="w-4 h-4 text-blue-500" />}
+                        <span>{link.name}</span>
+                      </span>
+                      {link.isStore && (
+                        <span className="text-[10px] bg-blue-600 text-white font-bold px-2 py-0.5 rounded-full uppercase">
+                          New
+                        </span>
+                      )}
                     </Link>
                   );
                 })}
