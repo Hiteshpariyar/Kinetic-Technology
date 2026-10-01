@@ -8,8 +8,6 @@ import {
   Menu,
   X,
   Code2,
-  ArrowRight,
-  Sparkles,
   Package,
 } from "lucide-react";
 
@@ -39,7 +37,6 @@ export const Navbar: React.FC = () => {
     { name: "Technologies", path: "/technologies" },
     { name: "Kinetic Store", path: "/store", isStore: true },
     { name: "How It Works", path: "/how-it-works" },
-    { name: "Pricing", path: "/pricing" },
     { name: "Track Project", path: "/track" },
     { name: "Contact", path: "/contact" },
   ];
@@ -54,8 +51,8 @@ export const Navbar: React.FC = () => {
         }`}
       >
         <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between gap-2 xl:gap-4">
-            {/* Left: Brand Logo (Responsive sizing so it doesn't crowd navigation) */}
+          <div className="flex items-center justify-between gap-3 xl:gap-6">
+            {/* Left: Brand Logo */}
             <Link
               to="/"
               className="flex items-center gap-2.5 group focus:outline-none rounded-lg p-0.5 flex-shrink-0"
@@ -84,15 +81,15 @@ export const Navbar: React.FC = () => {
               </div>
             </Link>
 
-            {/* Center: Desktop Navigation (Zero overlap, whitespace-nowrap, adaptive padding) */}
-            <nav className="hidden lg:flex items-center gap-0.5 xl:gap-1.5 flex-shrink">
+            {/* Center: Desktop Navigation */}
+            <nav className="hidden lg:flex items-center gap-1 xl:gap-2">
               {navLinks.map((link) => {
                 const isActive = location.pathname === link.path;
                 return (
                   <Link
                     key={link.path}
                     to={link.path}
-                    className={`px-2 xl:px-2.5 py-1.5 rounded-lg text-xs xl:text-sm font-medium transition-colors whitespace-nowrap flex-shrink-0 ${
+                    className={`px-2.5 xl:px-3 py-1.5 rounded-lg text-xs xl:text-sm font-medium transition-colors whitespace-nowrap flex-shrink-0 ${
                       isActive
                         ? "text-blue-600 dark:text-blue-400 bg-blue-50/80 dark:bg-blue-950/50"
                         : "text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100/80 dark:hover:bg-slate-800/70"
@@ -114,9 +111,8 @@ export const Navbar: React.FC = () => {
               })}
             </nav>
 
-            {/* Right: Actions */}
-            <div className="hidden lg:flex items-center gap-2 xl:gap-3 flex-shrink-0">
-              {/* Theme Toggle */}
+            {/* Right: Theme Toggle */}
+            <div className="hidden lg:flex items-center gap-2 flex-shrink-0">
               <button
                 onClick={toggleTheme}
                 aria-label="Toggle color theme"
@@ -128,24 +124,6 @@ export const Navbar: React.FC = () => {
                   <Moon className="w-4 h-4 text-slate-600" />
                 )}
               </button>
-
-              {/* Login Link */}
-              <Link
-                to="/login"
-                className="px-2.5 xl:px-3 py-1.5 text-xs xl:text-sm font-medium text-slate-700 dark:text-slate-200 hover:text-blue-600 dark:hover:text-blue-400 transition-colors whitespace-nowrap"
-              >
-                Client Portal
-              </Link>
-
-              {/* Primary CTA: Start a Project */}
-              <Link
-                to="/start-project"
-                className="inline-flex items-center gap-1.5 px-3.5 xl:px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white text-xs xl:text-sm font-semibold shadow-sm shadow-blue-600/25 transition-all whitespace-nowrap hover:scale-[1.02]"
-              >
-                <Sparkles className="w-3.5 h-3.5 text-blue-200" />
-                <span>Start a Project</span>
-                <ArrowRight className="w-3.5 h-3.5 opacity-80" />
-              </Link>
             </div>
 
             {/* Mobile Controls */}
@@ -238,21 +216,6 @@ export const Navbar: React.FC = () => {
                   );
                 })}
               </nav>
-            </div>
-
-            <div className="pt-6 border-t border-slate-200 dark:border-slate-800 flex flex-col gap-3">
-              <Link
-                to="/login"
-                className="w-full text-center py-2.5 px-4 rounded-xl border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-200 font-medium hover:bg-slate-50 dark:hover:bg-slate-800"
-              >
-                Client Portal Login
-              </Link>
-              <Link
-                to="/start-project"
-                className="w-full text-center py-3 px-4 rounded-xl bg-blue-600 text-white font-semibold shadow-md shadow-blue-600/30 hover:bg-blue-700"
-              >
-                Start a Project
-              </Link>
             </div>
           </div>
         </div>
