@@ -32,6 +32,7 @@ import {
   ArrowRight,
   Receipt,
   Package,
+  Loader2,
 } from "lucide-react";
 
 export const AdminLayout: React.FC = () => {
@@ -50,6 +51,7 @@ export const AdminLayout: React.FC = () => {
   const [authError, setAuthError] = useState("");
   const [isLoggingIn, setIsLoggingIn] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [forgotNotice, setForgotNotice] = useState(false);
 
   const handleAdminLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -115,102 +117,187 @@ export const AdminLayout: React.FC = () => {
   // If not authenticated, render restricted Admin Login Screen
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-slate-950 text-white flex flex-col items-center justify-center p-4 relative overflow-hidden">
-        {/* Ambient background glows */}
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-10 right-10 w-80 h-80 bg-indigo-600/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="min-h-screen bg-[#070B17] text-[#F8FAFC] flex flex-col justify-between items-center px-4 py-8 sm:py-12 relative overflow-hidden font-sans antialiased">
+        {/* Subtle background radial illumination */}
+        <div
+          className="pointer-events-none absolute inset-0 overflow-hidden"
+          aria-hidden="true"
+        >
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[640px] h-[360px] bg-[#2563EB]/[0.035] blur-[120px] rounded-full" />
+        </div>
 
-        <div className="w-full max-w-md bg-slate-900/90 backdrop-blur-xl border border-slate-800 rounded-3xl p-8 shadow-2xl relative z-10">
-          <div className="text-center mb-8">
-            <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center mx-auto mb-4 shadow-lg shadow-blue-500/25">
-              <Lock className="w-7 h-7 text-white" />
+        {/* Top spacer for vertical centering balance */}
+        <div className="w-full" />
+
+        {/* Login Area Container */}
+        <main className="w-full max-w-[380px] z-10 my-auto transition-opacity duration-300 motion-reduce:transition-none">
+          {/* Brand & Logo Header */}
+          <div className="flex flex-col items-center text-center mb-6">
+            {/* Logo */}
+            <div className="mb-4">
+              {config.logoUrl ? (
+                <img
+                  src={config.logoUrl}
+                  alt={config.name || "Kinetic Technology"}
+                  className="w-10 h-10 object-contain rounded-lg"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).style.display = "none";
+                  }}
+                />
+              ) : (
+                <div className="w-10 h-10 rounded-lg bg-[#2563EB] flex items-center justify-center text-white font-bold text-lg tracking-wider select-none shadow-sm">
+                  K
+                </div>
+              )}
             </div>
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-950/80 border border-blue-900 text-blue-400 text-[11px] font-bold uppercase tracking-wider mb-2">
-              <ShieldCheck className="w-3.5 h-3.5" />
-              <span>Restricted Administrative Portal</span>
+
+            {/* Brand Eyebrow */}
+            <div className="space-y-0.5">
+              <p className="text-[11px] font-semibold tracking-[0.2em] text-[#94A3B8] uppercase">
+                Kinetic Technology
+              </p>
+              <p className="text-[10px] font-medium tracking-[0.14em] text-slate-500 uppercase">
+                Admin Console
+              </p>
             </div>
-            <h1 className="text-2xl font-black tracking-tight text-white">
-              Kinetic Admin Console
+
+            {/* Main Heading & Description */}
+            <h1 className="text-2xl font-semibold text-[#F8FAFC] tracking-tight mt-3">
+              Welcome back
             </h1>
-            <p className="text-xs text-slate-400 mt-1">
-              Authorized personnel only. Please enter your root administrative ID and security password to proceed.
+            <p className="text-sm text-[#94A3B8] mt-1.5 leading-relaxed">
+              Sign in to access your administration workspace.
             </p>
           </div>
 
-          {authError && (
-            <div className="mb-6 p-3.5 rounded-xl bg-rose-950/50 border border-rose-800/80 text-rose-300 text-xs flex items-center gap-2.5">
-              <AlertTriangle className="w-4 h-4 flex-shrink-0 text-rose-400" />
-              <span>{authError}</span>
-            </div>
-          )}
+          {/* Login Card */}
+          <div className="w-full bg-[#0B1120] border border-[#243047] rounded-xl p-6 sm:p-7 shadow-xl shadow-black/40">
+            {authError && (
+              <div
+                role="alert"
+                className="mb-4 px-3.5 py-2.5 rounded-lg bg-red-950/40 border border-red-800/60 text-red-300 text-xs flex items-start gap-2.5"
+              >
+                <AlertTriangle className="w-4 h-4 flex-shrink-0 text-red-400 mt-0.5" />
+                <span className="leading-relaxed">{authError}</span>
+              </div>
+            )}
 
-          <form onSubmit={handleAdminLogin} className="space-y-4">
-            <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-                Admin ID / Security Handle *
-              </label>
-              <div className="relative">
+            <form onSubmit={handleAdminLogin} className="space-y-4">
+              {/* Admin ID Field */}
+              <div>
+                <label
+                  htmlFor="adminId"
+                  className="block text-xs font-medium text-[#F8FAFC] mb-1.5"
+                >
+                  Admin ID
+                </label>
                 <input
+                  id="adminId"
+                  name="adminId"
                   type="text"
                   required
+                  autoComplete="username"
                   value={adminId}
                   onChange={(e) => setAdminId(e.target.value)}
-                  placeholder="kinetictechnology.admin.com"
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-700 bg-slate-800/80 text-white text-xs font-mono focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-slate-500"
+                  placeholder="Enter your admin ID"
+                  className="w-full h-10 px-3.5 rounded-lg border border-[#243047] bg-[#111827] text-[#F8FAFC] text-sm placeholder:text-slate-500 focus:outline-none focus:border-[#2563EB] focus:ring-1 focus:ring-[#2563EB] transition-colors duration-150"
                 />
               </div>
-            </div>
 
-            <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-                Administrative Password *
-              </label>
-              <div className="relative">
-                <input
-                  type={showPassword ? "text" : "password"}
-                  required
-                  value={adminPassword}
-                  onChange={(e) => setAdminPassword(e.target.value)}
-                  placeholder="Enter security password"
-                  className="w-full px-3.5 py-2.5 pr-10 rounded-xl border border-slate-700 bg-slate-800/80 text-white text-xs font-mono focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-slate-500"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200"
-                >
-                  {showPassword ? (
-                    <EyeOff className="w-4 h-4" />
-                  ) : (
-                    <Eye className="w-4 h-4" />
-                  )}
-                </button>
+              {/* Password Field */}
+              <div>
+                <div className="flex items-center justify-between mb-1.5">
+                  <label
+                    htmlFor="adminPassword"
+                    className="block text-xs font-medium text-[#F8FAFC]"
+                  >
+                    Password
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() => setForgotNotice(!forgotNotice)}
+                    className="text-xs text-[#94A3B8] hover:text-[#F8FAFC] transition-colors duration-150 focus:outline-none"
+                  >
+                    Forgot password?
+                  </button>
+                </div>
+                <div className="relative">
+                  <input
+                    id="adminPassword"
+                    name="adminPassword"
+                    type={showPassword ? "text" : "password"}
+                    required
+                    autoComplete="current-password"
+                    value={adminPassword}
+                    onChange={(e) => setAdminPassword(e.target.value)}
+                    placeholder="Enter your password"
+                    className="w-full h-10 pl-3.5 pr-10 rounded-lg border border-[#243047] bg-[#111827] text-[#F8FAFC] text-sm placeholder:text-slate-500 focus:outline-none focus:border-[#2563EB] focus:ring-1 focus:ring-[#2563EB] transition-colors duration-150"
+                  />
+                  <button
+                    type="button"
+                    aria-label={showPassword ? "Hide password" : "Show password"}
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200 transition-colors duration-150 focus:outline-none p-0.5"
+                  >
+                    {showPassword ? (
+                      <EyeOff className="w-4 h-4" />
+                    ) : (
+                      <Eye className="w-4 h-4" />
+                    )}
+                  </button>
+                </div>
               </div>
-            </div>
 
-            <button
-              type="submit"
-              disabled={isLoggingIn}
-              className="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white text-xs font-bold shadow-lg shadow-blue-600/30 transition-all flex items-center justify-center gap-2 disabled:opacity-50 mt-2"
-            >
-              {isLoggingIn ? (
-                <span>Authenticating Credentials...</span>
-              ) : (
-                <>
-                  <span>Unlock Admin Dashboard</span>
-                  <ArrowRight className="w-4 h-4" />
-                </>
+              {/* Discreet Forgot Password Notice */}
+              {forgotNotice && (
+                <div className="p-3 rounded-lg bg-[#111827] border border-[#243047] text-xs text-[#94A3B8] leading-relaxed">
+                  Administrative credentials must be reset through root administration. Contact{" "}
+                  <a
+                    href={`mailto:${config.email || "support@kinetictech.com"}?subject=Admin%20Password%20Reset%20Request`}
+                    className="text-[#2563EB] hover:underline"
+                  >
+                    {config.email || "support@kinetictech.com"}
+                  </a>
+                  .
+                </div>
               )}
-            </button>
-          </form>
 
-          <div className="mt-6 pt-6 border-t border-slate-800 flex items-center justify-between text-xs text-slate-500">
-            <Link to="/" className="hover:text-slate-300 transition-colors">
-              ← Return to Public Website
-            </Link>
-            <span className="font-mono text-[10px]">TLS 1.3 256-Bit</span>
+              {/* Sign In Button */}
+              <button
+                type="submit"
+                disabled={isLoggingIn}
+                className="w-full h-10 mt-1 rounded-lg bg-[#2563EB] hover:bg-[#1D4ED8] active:bg-[#1E40AF] text-white text-sm font-medium transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-[#2563EB] focus:ring-offset-2 focus:ring-offset-[#070B17] disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-sm"
+              >
+                {isLoggingIn ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin text-white" />
+                    <span>Signing in...</span>
+                  </>
+                ) : (
+                  <span>Sign In</span>
+                )}
+              </button>
+            </form>
           </div>
-        </div>
+
+          {/* Under-Card Context: Protected Administrative Access & Return Link */}
+          <div className="mt-5 flex flex-col items-center gap-2.5">
+            <p className="text-xs text-[#94A3B8]/70 text-center tracking-wide">
+              Protected administrative access
+            </p>
+            <Link
+              to="/"
+              className="text-xs text-slate-500 hover:text-[#94A3B8] transition-colors duration-150"
+            >
+              ← Return to website
+            </Link>
+          </div>
+        </main>
+
+        {/* Minimal Footer */}
+        <footer className="w-full text-center py-4 text-xs text-slate-500 z-10">
+          © 2026 Kinetic Technology
+        </footer>
       </div>
     );
   }
