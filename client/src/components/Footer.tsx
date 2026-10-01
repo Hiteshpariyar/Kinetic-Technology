@@ -160,12 +160,6 @@ export const Footer: React.FC = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/admin" className="text-blue-600 dark:text-blue-400 font-semibold hover:underline flex items-center gap-1">
-                  <span>Admin Console</span>
-                  <ArrowUpRight className="w-3.5 h-3.5" />
-                </Link>
-              </li>
-              <li>
                 <Link to="/about" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
                   About Our Team
                 </Link>
