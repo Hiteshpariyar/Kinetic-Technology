@@ -232,7 +232,7 @@ export const TrackProject: React.FC = () => {
               Enter Your Tracking ID
             </h3>
             <p className="text-xs text-slate-500 dark:text-slate-400 max-w-sm mx-auto">
-              Enter your official Tracking ID (e.g. KT-XXXXXX) from your project submission or tax invoice to monitor live development stages.
+              Enter your official Tracking ID from your project submission or tax invoice to monitor live development stages.
             </p>
           </div>
         )}
