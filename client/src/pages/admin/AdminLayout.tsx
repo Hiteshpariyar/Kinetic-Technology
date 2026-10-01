@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useLocation, Outlet, useNavigate } from "react-router-dom";
 import { companyConfig } from "../../config/companyConfig";
 import { useTheme } from "../../context/ThemeContext";
+import { useCompanyConfig } from "../../context/CompanyConfigContext";
 import {
   LayoutDashboard,
   Users,
@@ -35,6 +36,7 @@ import {
 
 export const AdminLayout: React.FC = () => {
   const { theme, toggleTheme } = useTheme();
+  const { config } = useCompanyConfig();
   const location = useLocation();
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -233,12 +235,23 @@ export const AdminLayout: React.FC = () => {
           {/* Sidebar Header */}
           <div className="p-5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
             <Link to="/admin" className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white shadow-md shadow-blue-500/20">
-                <Code2 className="w-5 h-5" />
+              <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white shadow-md shadow-blue-500/20 overflow-hidden flex-shrink-0">
+                {config.logoUrl ? (
+                  <img
+                    src={config.logoUrl}
+                    alt={config.name}
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).style.display = "none";
+                    }}
+                  />
+                ) : (
+                  <Code2 className="w-5 h-5" />
+                )}
               </div>
               <div className="flex flex-col">
                 <span className="font-bold text-base text-slate-900 dark:text-white leading-tight">
-                  {companyConfig.name}
+                  {config.name}
                 </span>
                 <span className="text-[10px] font-semibold text-blue-600 dark:text-blue-400 tracking-wider uppercase">
                   Admin Console

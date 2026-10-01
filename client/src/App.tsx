@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { ThemeProvider } from "./context/ThemeContext";
+import { CompanyConfigProvider } from "./context/CompanyConfigContext";
 import { Navbar } from "./components/Navbar";
 import { Footer } from "./components/Footer";
 
@@ -50,51 +51,53 @@ const PublicLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => 
 const App: React.FC = () => {
   return (
     <ThemeProvider>
-      <Router>
-        <Routes>
-          {/* Admin Suite Routes */}
-          <Route path="/admin" element={<AdminLayout />}>
-            <Route index element={<AdminOverview />} />
-            <Route path="tracking" element={<AdminTracking />} />
-            <Route path="invoices" element={<AdminInvoices />} />
-            <Route path="store" element={<AdminStore />} />
-            <Route path="leads" element={<AdminLeads />} />
-            <Route path="pricing" element={<AdminPricing />} />
-            <Route path="services" element={<AdminServices />} />
-            <Route path="technologies" element={<AdminTechnologies />} />
-            <Route path="industries" element={<AdminIndustries />} />
-            <Route path="team" element={<AdminTeam />} />
-            <Route path="audit-logs" element={<AdminAuditLogs />} />
-            <Route path="settings" element={<AdminSettings />} />
-          </Route>
+      <CompanyConfigProvider>
+        <Router>
+          <Routes>
+            {/* Admin Suite Routes */}
+            <Route path="/admin" element={<AdminLayout />}>
+              <Route index element={<AdminOverview />} />
+              <Route path="tracking" element={<AdminTracking />} />
+              <Route path="invoices" element={<AdminInvoices />} />
+              <Route path="store" element={<AdminStore />} />
+              <Route path="leads" element={<AdminLeads />} />
+              <Route path="pricing" element={<AdminPricing />} />
+              <Route path="services" element={<AdminServices />} />
+              <Route path="technologies" element={<AdminTechnologies />} />
+              <Route path="industries" element={<AdminIndustries />} />
+              <Route path="team" element={<AdminTeam />} />
+              <Route path="audit-logs" element={<AdminAuditLogs />} />
+              <Route path="settings" element={<AdminSettings />} />
+            </Route>
 
-          {/* Public & Client Portal Routes */}
-          <Route
-            path="/*"
-            element={
-              <PublicLayout>
-                <Routes>
-                  <Route path="/" element={<Home />} />
-                  <Route path="/services" element={<Services />} />
-                  <Route path="/industries" element={<Industries />} />
-                  <Route path="/technologies" element={<Technologies />} />
-                  <Route path="/how-it-works" element={<HowItWorks />} />
-                  <Route path="/pricing" element={<Pricing />} />
-                  <Route path="/store" element={<KineticStore />} />
-                  <Route path="/about" element={<About />} />
-                  <Route path="/contact" element={<Contact />} />
-                  <Route path="/start-project" element={<ProjectBuilder />} />
-                  <Route path="/track" element={<TrackProject />} />
-                  <Route path="/login" element={<Login />} />
-                  <Route path="/register" element={<Register />} />
-                  <Route path="/dashboard" element={<ClientDashboard />} />
-                  <Route path="*" element={<Navigate to="/" replace />} />
-                </Routes>
-              </PublicLayout>
-            }
-          />
-        </Routes>
-      </Router>
+            {/* Public & Client Portal Routes */}
+            <Route
+              path="/*"
+              element={
+                <PublicLayout>
+                  <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/services" element={<Services />} />
+                    <Route path="/industries" element={<Industries />} />
+                    <Route path="/technologies" element={<Technologies />} />
+                    <Route path="/how-it-works" element={<HowItWorks />} />
+                    <Route path="/pricing" element={<Pricing />} />
+                    <Route path="/store" element={<KineticStore />} />
+                    <Route path="/about" element={<About />} />
+                    <Route path="/contact" element={<Contact />} />
+                    <Route path="/start-project" element={<ProjectBuilder />} />
+                    <Route path="/track" element={<TrackProject />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/register" element={<Register />} />
+                    <Route path="/dashboard" element={<ClientDashboard />} />
+                    <Route path="*" element={<Navigate to="/" replace />} />
+                  </Routes>
+                </PublicLayout>
+              }
+            />
+          </Routes>
+        </Router>
+      </CompanyConfigProvider>
     </ThemeProvider>
   );
 };

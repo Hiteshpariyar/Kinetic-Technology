@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { companyConfig } from "../config/companyConfig";
+import { useCompanyConfig } from "../context/CompanyConfigContext";
 import {
   Code2,
   Mail,
@@ -13,6 +13,7 @@ import {
 
 export const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
+  const { config } = useCompanyConfig();
 
   return (
     <footer className="bg-slate-100 dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 transition-colors">
@@ -21,34 +22,45 @@ export const Footer: React.FC = () => {
           {/* Brand Info (2 cols) */}
           <div className="lg:col-span-2 flex flex-col gap-4">
             <Link to="/" className="flex items-center gap-2.5">
-              <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white shadow-md shadow-blue-500/20">
-                <Code2 className="w-5 h-5" />
+              <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white shadow-md shadow-blue-500/20 overflow-hidden flex-shrink-0">
+                {config.logoUrl ? (
+                  <img
+                    src={config.logoUrl}
+                    alt={config.name}
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).style.display = "none";
+                    }}
+                  />
+                ) : (
+                  <Code2 className="w-5 h-5" />
+                )}
               </div>
               <span className="font-bold text-xl text-slate-900 dark:text-white tracking-tight">
-                {companyConfig.name}
+                {config.name}
               </span>
             </Link>
-            <p className="text-slate-600 dark:text-slate-400 text-sm max-w-sm leading-relaxed">
-              We engineer mission-critical web applications, mobile platforms, enterprise backends, and custom software systems designed to scale seamlessly.
+            <p className="text-slate-600 dark:text-slate-400 text-sm max-w-sm leading-relaxed whitespace-pre-line">
+              {config.description}
             </p>
 
             <div className="flex flex-col gap-2 pt-2 text-sm text-slate-600 dark:text-slate-400">
               <div className="flex items-center gap-2.5">
                 <Mail className="w-4 h-4 text-blue-600 dark:text-blue-400 flex-shrink-0" />
-                <a href={`mailto:${companyConfig.email}`} className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-                  {companyConfig.email}
+                <a href={`mailto:${config.email}`} className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                  {config.email}
                 </a>
               </div>
               <div className="flex items-center gap-2.5">
                 <Phone className="w-4 h-4 text-blue-600 dark:text-blue-400 flex-shrink-0" />
-                <a href={`tel:${companyConfig.phone}`} className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-                  {companyConfig.phone}
+                <a href={`tel:${config.phone}`} className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                  {config.phone}
                 </a>
               </div>
               <div className="flex items-center gap-2.5">
                 <MapPin className="w-4 h-4 text-blue-600 dark:text-blue-400 flex-shrink-0" />
                 <span>
-                  {companyConfig.address.city}, {companyConfig.address.state} - {companyConfig.address.country}
+                  {config.address.city}, {config.address.state} - {config.address.country}
                 </span>
               </div>
             </div>
@@ -171,9 +183,9 @@ export const Footer: React.FC = () => {
         <div className="mt-14 pt-8 border-t border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500 dark:text-slate-400">
           <div className="flex items-center gap-2">
             <ShieldCheck className="w-4 h-4 text-emerald-500" />
-            <span>Enterprise-Grade Security & 99.9% Uptime Guarantee</span>
+            <span>{config.trustBadge || "Enterprise-Grade Security & 99.9% Uptime Guarantee"}</span>
           </div>
-          <p>© {currentYear} {companyConfig.name}. All rights reserved.</p>
+          <p>© {currentYear} {config.name}. All rights reserved.</p>
         </div>
       </div>
     </footer>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useTheme } from "../context/ThemeContext";
-import { companyConfig } from "../config/companyConfig";
+import { useCompanyConfig } from "../context/CompanyConfigContext";
 import {
   Sun,
   Moon,
@@ -15,6 +15,7 @@ import {
 
 export const Navbar: React.FC = () => {
   const { theme, toggleTheme } = useTheme();
+  const { config } = useCompanyConfig();
   const location = useLocation();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -57,17 +58,28 @@ export const Navbar: React.FC = () => {
             {/* Left: Brand Logo (Responsive sizing so it doesn't crowd navigation) */}
             <Link
               to="/"
-              className="flex items-center gap-2 group focus:outline-none rounded-lg p-0.5 flex-shrink-0"
+              className="flex items-center gap-2.5 group focus:outline-none rounded-lg p-0.5 flex-shrink-0"
             >
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white shadow-md shadow-blue-500/20 group-hover:scale-105 transition-transform">
-                <Code2 className="w-4 h-4 sm:w-5 sm:h-5" />
+              <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white shadow-md shadow-blue-500/20 group-hover:scale-105 transition-transform overflow-hidden flex-shrink-0">
+                {config.logoUrl ? (
+                  <img
+                    src={config.logoUrl}
+                    alt={config.name}
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).style.display = "none";
+                    }}
+                  />
+                ) : (
+                  <Code2 className="w-4 h-4 sm:w-5 sm:h-5" />
+                )}
               </div>
               <div className="flex flex-col">
                 <span className="font-bold text-base sm:text-lg text-slate-900 dark:text-white leading-tight tracking-tight whitespace-nowrap">
-                  {companyConfig.name}
+                  {config.name}
                 </span>
                 <span className="text-[10px] font-medium text-slate-500 dark:text-slate-400 leading-tight hidden xl:block whitespace-nowrap">
-                  {companyConfig.tagline}
+                  {config.tagline}
                 </span>
               </div>
             </Link>
@@ -174,11 +186,22 @@ export const Navbar: React.FC = () => {
             <div>
               <div className="flex items-center justify-between pb-6 border-b border-slate-200 dark:border-slate-800">
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white">
-                    <Code2 className="w-4 h-4" />
+                  <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white overflow-hidden flex-shrink-0">
+                    {config.logoUrl ? (
+                      <img
+                        src={config.logoUrl}
+                        alt={config.name}
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).style.display = "none";
+                        }}
+                      />
+                    ) : (
+                      <Code2 className="w-4 h-4" />
+                    )}
                   </div>
                   <span className="font-bold text-slate-900 dark:text-white">
-                    {companyConfig.name}
+                    {config.name}
                   </span>
                 </div>
                 <button

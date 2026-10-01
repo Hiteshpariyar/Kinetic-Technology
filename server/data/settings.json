@@ -1,0 +1,23 @@
+{
+  "name": "Kinetic Technology",
+  "logoUrl": "http://localhost:4000/uploads/icons/company-logo-1790856065179.png",
+  "tagline": "Innovative Software Solutions",
+  "description": "We engineer mission-critical web applications, mobile platforms, enterprise backends, and custom software systems designed to scale seamlessly.",
+  "email": "support@kinetictech.com",
+  "phone": "+91 81530 13913",
+  "address": {
+    "street": "123 Innovation Blvd",
+    "city": "AHMEDABAD",
+    "state": "RAJKOT",
+    "zip": "360001",
+    "country": "INDIA"
+  },
+  "trustBadge": "Enterprise-Grade Security & 99.9% Uptime Guarantee",
+  "currency": "INR",
+  "currencySymbol": "₹",
+  "socialLinks": {
+    "twitter": "https://twitter.com/kinetictech",
+    "linkedin": "https://linkedin.com/company/kinetictech",
+    "github": "https://github.com/kinetictech"
+  }
+}

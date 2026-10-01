@@ -11,6 +11,7 @@ import estimateRoutes from "./routes/estimate";
 import trackingRoutes from "./routes/tracking";
 import invoiceRoutes from "./routes/invoice";
 import storeRoutes from "./routes/store";
+import settingsRoutes from "./routes/settings";
 import { errorHandler } from "./middleware/errorHandler";
 import { requestLogger } from "./middleware/requestLogger";
 
@@ -50,6 +51,7 @@ app.use("/api/estimate", estimateRoutes);
 app.use("/api/tracking", trackingRoutes);
 app.use("/api/invoices", invoiceRoutes);
 app.use("/api/store", storeRoutes);
+app.use("/api/settings", settingsRoutes);
 
 // Health check
 app.get("/api/health", (_req, res) => {
