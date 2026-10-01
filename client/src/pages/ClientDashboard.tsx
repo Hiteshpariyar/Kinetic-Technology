@@ -176,7 +176,7 @@ export const ClientDashboard: React.FC = () => {
             </span>
           </div>
           <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
-            Welcome back! Monitor live Flipkart-style sprint milestones, review tax invoices, and track your software delivery anytime on any device.
+            Welcome back! Monitor live sprint milestones, review tax invoices, and track your software delivery anytime on any device.
           </p>
         </div>
 
@@ -311,7 +311,7 @@ export const ClientDashboard: React.FC = () => {
         </button>
       </div>
 
-      {/* Tab 1: Live Flipkart-Style Project Tracking */}
+      {/* Tab 1: Live Milestone Project Tracking */}
       {activeTab === "tracking" && (
         <div className="space-y-6">
           {tracking ? (
@@ -373,7 +373,7 @@ export const ClientDashboard: React.FC = () => {
                 </div>
               </div>
 
-              {/* Flipkart-Style Vertical Milestone Timeline */}
+              {/* Vertical Milestone Timeline */}
               <div className="relative pl-6 sm:pl-8 space-y-6 pt-2">
                 {tracking.milestones.map((m, idx) => {
                   const isCompleted = m.status === "completed";

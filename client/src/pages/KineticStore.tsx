@@ -496,7 +496,7 @@ export const KineticStore: React.FC = () => {
               Want a custom app built for your business?
             </h2>
             <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-              Use our interactive Project Builder to configure platforms, custom features, and receive an instant estimate with real-time Flipkart-style project tracking.
+              Use our interactive Project Builder to configure platforms, custom features, and receive an instant estimate with real-time project tracking.
             </p>
           </div>
 

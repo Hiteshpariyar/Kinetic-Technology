@@ -654,7 +654,7 @@ ${message.trim()}
                     </div>
 
                     <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-2.5 leading-relaxed">
-                      Use this unique Tracking ID to follow Flipkart-style real-time sprint milestones, staging previews, and test builds on our tracking portal.
+                      Use this unique Tracking ID to follow real-time sprint milestones, staging previews, and test builds on our tracking portal.
                     </p>
 
                     <Link

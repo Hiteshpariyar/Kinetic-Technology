@@ -92,7 +92,7 @@ export const AdminOverview: React.FC = () => {
     {
       title: "Active Live Projects",
       value: `${trackingRecords.length || 3} Projects`,
-      change: "Tracking via Flipkart Stepper",
+      change: "Tracking via Milestone Stepper",
       icon: Activity,
       trend: "neutral",
     },
@@ -165,7 +165,7 @@ export const AdminOverview: React.FC = () => {
             <div className="flex items-center gap-2">
               <Activity className="w-4 h-4 text-blue-600 dark:text-blue-400" />
               <h2 className="text-sm font-bold text-slate-900 dark:text-white">
-                Live Flipkart Project Stepper Telemetry
+                Live Project Milestone Stepper
               </h2>
             </div>
             <Link

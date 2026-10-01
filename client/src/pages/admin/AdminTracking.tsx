@@ -211,7 +211,7 @@ export const AdminTracking: React.FC = () => {
               Project Tracking Management
             </h1>
             <span className="text-xs bg-blue-100 dark:bg-blue-950 text-blue-600 dark:text-blue-400 font-bold px-2 py-0.5 rounded-full">
-              Live Flipkart Bar Sync
+              Live Tracking Sync
             </span>
           </div>
           <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
@@ -330,29 +330,147 @@ export const AdminTracking: React.FC = () => {
 
               {/* Edit Form */}
               <form onSubmit={handleUpdate} className="space-y-6">
+                {/* Quick Stage & Progress Lifecycle Buttons */}
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">
+                    Quick Stage & Progress Shortcuts:
+                  </label>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setStage(1);
+                        setProgress(0);
+                        setLeadEngineer("Pending Developer Assignment");
+                        setMilestoneNote("All app information submitted successfully (0%). Ready for developer connection.");
+                      }}
+                      className={`p-2.5 rounded-xl border text-left text-xs transition-all ${
+                        progress === 0
+                          ? "bg-amber-50 dark:bg-amber-950/40 border-amber-400 text-amber-800 dark:text-amber-200 font-bold shadow-sm"
+                          : "bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-slate-300"
+                      }`}
+                    >
+                      <div className="font-bold">0% App Submitted</div>
+                      <div className="text-[10px] text-slate-500 font-normal">Awaiting Developer</div>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setStage(2);
+                        setProgress(10);
+                        setLeadEngineer("Pending Developer Assignment");
+                        setMilestoneNote("Developer connected to workspace & repository (10%).");
+                      }}
+                      className={`p-2.5 rounded-xl border text-left text-xs transition-all ${
+                        progress === 10
+                          ? "bg-blue-50 dark:bg-blue-950/40 border-blue-400 text-blue-800 dark:text-blue-200 font-bold shadow-sm"
+                          : "bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-slate-300"
+                      }`}
+                    >
+                      <div className="font-bold">10% Dev Connected</div>
+                      <div className="text-[10px] text-slate-500 font-normal">Workspace linked</div>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setStage(3);
+                        setProgress(15);
+                        if (!leadEngineer || leadEngineer.includes("Pending")) {
+                          setLeadEngineer("Alex R. (Senior Systems Architect)");
+                        }
+                        setMilestoneNote("Developer assigned to project (15%). Sprint kickoff initiated.");
+                      }}
+                      className={`p-2.5 rounded-xl border text-left text-xs transition-all ${
+                        progress === 15
+                          ? "bg-indigo-50 dark:bg-indigo-950/40 border-indigo-400 text-indigo-800 dark:text-indigo-200 font-bold shadow-sm"
+                          : "bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-slate-300"
+                      }`}
+                    >
+                      <div className="font-bold">15% Dev Assigned</div>
+                      <div className="text-[10px] text-slate-500 font-normal">Lead engineer set</div>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setStage(4);
+                        setProgress(50);
+                        setMilestoneNote("Active sprint development: UI components, APIs, and database (50%).");
+                      }}
+                      className={`p-2.5 rounded-xl border text-left text-xs transition-all ${
+                        progress === 50
+                          ? "bg-blue-50 dark:bg-blue-950/40 border-blue-400 text-blue-800 dark:text-blue-200 font-bold shadow-sm"
+                          : "bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-slate-300"
+                      }`}
+                    >
+                      <div className="font-bold">50% Core Engineering</div>
+                      <div className="text-[10px] text-slate-500 font-normal">Active Sprints</div>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setStage(5);
+                        setProgress(75);
+                        setMilestoneNote("Automated integration tests and security pen-testing in progress (75%).");
+                      }}
+                      className={`p-2.5 rounded-xl border text-left text-xs transition-all ${
+                        progress === 75
+                          ? "bg-purple-50 dark:bg-purple-950/40 border-purple-400 text-purple-800 dark:text-purple-200 font-bold shadow-sm"
+                          : "bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-slate-300"
+                      }`}
+                    >
+                      <div className="font-bold">75% Testing & Security</div>
+                      <div className="text-[10px] text-slate-500 font-normal">QA verification</div>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setStage(6);
+                        setProgress(100);
+                        setMilestoneNote("Production cloud handover and SSL deployment completed (100%).");
+                      }}
+                      className={`p-2.5 rounded-xl border text-left text-xs transition-all ${
+                        progress === 100
+                          ? "bg-emerald-50 dark:bg-emerald-950/40 border-emerald-400 text-emerald-800 dark:text-emerald-200 font-bold shadow-sm"
+                          : "bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-slate-300"
+                      }`}
+                    >
+                      <div className="font-bold">100% Deployed</div>
+                      <div className="text-[10px] text-slate-500 font-normal">Cloud handover</div>
+                    </button>
+                  </div>
+                </div>
+
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {/* Current Stage */}
                   <div>
                     <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">
-                      Current Milestone Stage (Flipkart Stepper)
+                      Current Milestone Stage
                     </label>
                     <select
                       value={stage}
                       onChange={(e) => {
                         const newStage = Number(e.target.value);
                         setStage(newStage);
-                        // auto adjust progress recommendation
-                        const recommendedPercent = Math.min(100, Math.round((newStage / 6) * 100));
-                        setProgress(recommendedPercent);
+                        if (newStage === 1) setProgress(0);
+                        else if (newStage === 2) setProgress(10);
+                        else if (newStage === 3) setProgress(15);
+                        else if (newStage === 4) setProgress(50);
+                        else if (newStage === 5) setProgress(75);
+                        else if (newStage === 6) setProgress(100);
                       }}
                       className="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
-                      <option value={1}>Stage 1: Project Inception & Requirements Confirmed</option>
-                      <option value={2}>Stage 2: Architecture & High-Fidelity UI/UX Prototyping</option>
-                      <option value={3}>Stage 3: Core Engineering & Frontend/Backend Sprints</option>
-                      <option value={4}>Stage 4: Automated Testing, Security Audit & Pen-Testing</option>
-                      <option value={5}>Stage 5: Client Staging Preview & User Acceptance</option>
-                      <option value={6}>Stage 6: Production Deployment & Cloud Handover</option>
+                      <option value={1}>Stage 1: App Information Submitted (0%)</option>
+                      <option value={2}>Stage 2: Developer Connected (10%)</option>
+                      <option value={3}>Stage 3: Developer Assigned & Sprint Kickoff (15%)</option>
+                      <option value={4}>Stage 4: Core Engineering & Sprints (50%)</option>
+                      <option value={5}>Stage 5: Automated Testing, Security Audit & Pen-Testing (75%)</option>
+                      <option value={6}>Stage 6: Production Deployment & Cloud Handover (100%)</option>
                     </select>
                   </div>
 
@@ -437,7 +555,7 @@ export const AdminTracking: React.FC = () => {
                 {/* Technical Sprint Engineer Note */}
                 <div>
                   <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">
-                    Current Milestone Sprint Note (Visible on Client Flipkart Tracker)
+                    Current Milestone Sprint Note (Visible on Client Tracker)
                   </label>
                   <textarea
                     rows={3}
@@ -454,13 +572,13 @@ export const AdminTracking: React.FC = () => {
                     {saveStatus === "saved" && (
                       <span className="text-emerald-600 dark:text-emerald-400 font-bold flex items-center gap-1.5">
                         <CheckCircle2 className="w-4 h-4" />
-                        Milestone telemetry updated & synchronized live!
+                        Milestone status updated & synchronized live!
                       </span>
                     )}
                     {saveStatus === "error" && (
                       <span className="text-rose-600 dark:text-rose-400 font-bold flex items-center gap-1.5">
                         <AlertCircle className="w-4 h-4" />
-                        Failed to update milestone telemetry.
+                        Failed to update tracking.
                       </span>
                     )}
                   </div>
@@ -478,7 +596,7 @@ export const AdminTracking: React.FC = () => {
                     ) : (
                       <>
                         <Save className="w-4 h-4" />
-                        <span>Publish Milestone Telemetry</span>
+                        <span>Save & Update Tracking</span>
                       </>
                     )}
                   </button>
@@ -487,7 +605,7 @@ export const AdminTracking: React.FC = () => {
             </div>
           ) : (
             <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm p-12 text-center text-xs text-slate-400">
-              Select a project from the left panel to edit its tracking telemetry.
+              Select a project from the left panel to edit its tracking.
             </div>
           )}
         </div>

@@ -58,7 +58,7 @@ export const TrackProject: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const urlId = searchParams.get("id") || "";
 
-  const [inputTrackId, setInputTrackId] = useState(urlId || "KT-782910");
+  const [inputTrackId, setInputTrackId] = useState(urlId || "");
   const [activeTracking, setActiveTracking] = useState<ProjectTracking | null>(null);
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
@@ -96,9 +96,11 @@ export const TrackProject: React.FC = () => {
   };
 
   useEffect(() => {
-    const idToUse = urlId ? urlId.trim().toUpperCase() : "KT-782910";
-    setInputTrackId(idToUse);
-    fetchTracking(idToUse);
+    if (urlId) {
+      const clean = urlId.trim().toUpperCase();
+      setInputTrackId(clean);
+      fetchTracking(clean);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [urlId]);
 
@@ -171,19 +173,15 @@ export const TrackProject: React.FC = () => {
       <div className="max-w-5xl mx-auto space-y-8">
         {/* Header / Intro */}
         <div className="text-center space-y-3">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 dark:bg-blue-950/80 border border-blue-200 dark:border-blue-900 text-blue-600 dark:text-blue-400 text-xs font-bold tracking-wide uppercase">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>Real-Time Project Telemetry</span>
-          </div>
           <h1 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight">
-            Flipkart-Style Project Tracking
+            Project Tracking
           </h1>
           <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
-            Track your custom software development live from inception to cloud deployment across all 6 milestones anytime on any device.
+            Track your custom software development live from inception to cloud deployment across all milestones anytime on any device.
           </p>
         </div>
 
-        {/* Search Bar & Demo Quick Links */}
+        {/* Search Bar */}
         <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-xl max-w-3xl mx-auto">
           <form onSubmit={handleSearch} className="flex flex-col sm:flex-row gap-3">
             <div className="relative flex-1">
@@ -198,7 +196,7 @@ export const TrackProject: React.FC = () => {
             </div>
             <button
               type="submit"
-              disabled={loading}
+              disabled={loading || !inputTrackId.trim()}
               className="px-7 py-3.5 rounded-2xl bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-bold text-sm shadow-md shadow-blue-500/25 transition-all flex items-center justify-center gap-2 disabled:opacity-60"
             >
               {loading ? (
@@ -214,32 +212,6 @@ export const TrackProject: React.FC = () => {
               )}
             </button>
           </form>
-
-          {/* Quick Demo Links */}
-          <div className="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800 flex flex-wrap items-center gap-2 text-xs">
-            <span className="text-slate-400 font-medium">Quick Demo IDs:</span>
-            {[
-              { id: "KT-782910", name: "FinScale Payments (Stage 3)" },
-              { id: "KT-104921", name: "MedCore Health (Stage 2)" },
-              { id: "KT-277691", name: "SupplyFlow Logistics (Stage 4)" },
-            ].map((demo) => (
-              <button
-                key={demo.id}
-                type="button"
-                onClick={() => {
-                  setInputTrackId(demo.id);
-                  fetchTracking(demo.id);
-                }}
-                className={`px-2.5 py-1 rounded-lg border font-mono font-semibold transition-colors ${
-                  activeTracking?.trackingId === demo.id
-                    ? "bg-blue-50 dark:bg-blue-950 border-blue-300 dark:border-blue-700 text-blue-600 dark:text-blue-400"
-                    : "bg-slate-100 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700"
-                }`}
-              >
-                {demo.id} <span className="font-sans text-[10px] text-slate-400">({demo.name.split(" ")[0]})</span>
-              </button>
-            ))}
-          </div>
         </div>
 
         {/* Error message */}
@@ -250,10 +222,25 @@ export const TrackProject: React.FC = () => {
           </div>
         )}
 
+        {/* Empty state when no project searched yet */}
+        {!activeTracking && !loading && !errorMsg && (
+          <div className="bg-white dark:bg-slate-900 rounded-3xl p-8 border border-slate-200 dark:border-slate-800 shadow-sm text-center max-w-xl mx-auto space-y-3">
+            <div className="w-12 h-12 rounded-2xl bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-400 flex items-center justify-center mx-auto">
+              <Search className="w-6 h-6" />
+            </div>
+            <h3 className="text-lg font-bold text-slate-900 dark:text-white">
+              Enter Your Tracking ID
+            </h3>
+            <p className="text-xs text-slate-500 dark:text-slate-400 max-w-sm mx-auto">
+              Enter your official Tracking ID (e.g. KT-XXXXXX) from your project submission or tax invoice to monitor live development stages.
+            </p>
+          </div>
+        )}
+
         {/* Active Project Card */}
         {activeTracking && (
           <div className="space-y-6">
-            {/* Flipkart-Style Tracking Status Header Card */}
+            {/* Project Tracking Status Header Card */}
             <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl overflow-hidden">
               <div className="p-6 sm:p-8 bg-gradient-to-r from-blue-900/10 via-indigo-900/5 to-transparent border-b border-slate-200 dark:border-slate-800">
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -269,10 +256,27 @@ export const TrackProject: React.FC = () => {
                           {copied ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
                         </button>
                       </span>
-                      <span className="text-xs bg-emerald-100 dark:bg-emerald-950/70 text-emerald-700 dark:text-emerald-300 font-semibold px-2.5 py-1 rounded-full flex items-center gap-1">
-                        <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                        Stage {activeTracking.currentStage} of 6 In Progress
-                      </span>
+                      {activeTracking.progressPercent === 0 ? (
+                        <span className="text-xs bg-amber-100 dark:bg-amber-950/70 text-amber-700 dark:text-amber-300 font-semibold px-2.5 py-1 rounded-full flex items-center gap-1.5">
+                          <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
+                          App Information Submitted • 0% Complete
+                        </span>
+                      ) : activeTracking.progressPercent === 10 ? (
+                        <span className="text-xs bg-blue-100 dark:bg-blue-950/70 text-blue-700 dark:text-blue-300 font-semibold px-2.5 py-1 rounded-full flex items-center gap-1.5">
+                          <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
+                          Developer Connected • 10% Complete
+                        </span>
+                      ) : activeTracking.progressPercent === 15 ? (
+                        <span className="text-xs bg-indigo-100 dark:bg-indigo-950/70 text-indigo-700 dark:text-indigo-300 font-semibold px-2.5 py-1 rounded-full flex items-center gap-1.5">
+                          <span className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse" />
+                          Developer Assigned • 15% Complete
+                        </span>
+                      ) : (
+                        <span className="text-xs bg-emerald-100 dark:bg-emerald-950/70 text-emerald-700 dark:text-emerald-300 font-semibold px-2.5 py-1 rounded-full flex items-center gap-1.5">
+                          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                          Stage {activeTracking.currentStage} of 6 In Progress • {activeTracking.progressPercent}%
+                        </span>
+                      )}
                     </div>
 
                     <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white mt-2">
@@ -351,13 +355,15 @@ export const TrackProject: React.FC = () => {
                       </span>
                     </div>
                     <p className="text-[10px] text-slate-400 mt-1">
-                      Dedicated technical point of contact
+                      {activeTracking.progressPercent < 15
+                        ? "Developer assignment in progress"
+                        : "Dedicated technical point of contact"}
                     </p>
                   </div>
                 </div>
               </div>
 
-              {/* Flipkart-Style Vertical Stepper Track Bar */}
+              {/* Vertical Stepper Track Bar */}
               <div className="p-6 sm:p-8">
                 <div className="mb-6 flex items-center justify-between">
                   <h3 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
@@ -490,7 +496,7 @@ export const TrackProject: React.FC = () => {
 
                 <div className="text-[11px] text-slate-400 flex items-center gap-1.5">
                   <ShieldCheck className="w-4 h-4 text-emerald-500" />
-                  <span>Secure 256-Bit Encrypted Telemetry</span>
+                  <span>Secure Milestone Tracking</span>
                 </div>
               </div>
             </div>
